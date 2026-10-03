@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Interactive Sorting and Searching Algorithm Visualizer for Merge Sort, Quick Sort and Binary Search."
+    >
+
+    <title>Sorting & Searching Visualizer</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================================================
+         HEADER
+    ========================================================== -->
+    <header class="header">
+
+        <div class="header-content">
+
+            <div class="brand">
+                <div class="brand-icon">⚡</div>
+
+                <div>
+                    <h1>Sorting & Searching Visualizer</h1>
+                    <p>
+                        See algorithms think, compare, search and sort
+                        step by step.
+                    </p>
+                </div>
+            </div>
+
+            <div class="header-badge">
+                DAA Visualizer
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN APPLICATION
+    ========================================================== -->
+    <main class="main-container">
+
+
+        <!-- =====================================================
+             CONTROL PANEL
+        ====================================================== -->
+        <section class="card control-panel">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-label">CONTROL CENTER</span>
+
+                    <h2>Configure Algorithm</h2>
+
+                    <p>
+                        Choose an algorithm and configure the data
+                        you want to visualize.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="controls-grid">
+
+
+                <!-- Algorithm Selection -->
+                <div class="control-group">
+
+                    <label for="algorithmSelect">
+                        Algorithm
+                    </label>
+
+                    <select id="algorithmSelect">
+
+                        <option value="merge">
+                            Merge Sort
+                        </option>
+
+                        <option value="quick">
+                            Quick Sort
+                        </option>
+
+                        <option value="binary">
+                            Binary Search
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Array Size -->
+                <div class="control-group">
+
+                    <label for="arraySize">
+                        Array Size
+                        <span id="arraySizeValue">20</span>
+                    </label>
+
+                    <input
+                        type="range"
+                        id="arraySize"
+                        min="5"
+                        max="50"
+                        value="20"
+                    >
+
+                </div>
+
+
+                <!-- Search Target -->
+                <div
+                    class="control-group search-control"
+                    id="searchTargetGroup"
+                >
+
+                    <label for="searchTarget">
+                        Search Target
+                    </label>
+
+                    <input
+                        type="number"
+                        id="searchTarget"
+                        placeholder="Enter target value"
+                    >
+
+                    <small>
+                        Binary Search requires sorted data.
+                    </small>
+
+                </div>
+
+
+                <!-- Animation Speed -->
+                <div class="control-group">
+
+                    <label for="speedControl">
+                        Animation Speed
+                    </label>
+
+                    <select id="speedControl">
+
+                        <option value="800">
+                            Slow
+                        </option>
+
+                        <option value="400" selected>
+                            Normal
+                        </option>
+
+                        <option value="150">
+                            Fast
+
+                        </option>
+                         <option value="50">
+                            Very Fast
+                            
+                        </option>
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- Custom Array -->
+            <div class="custom-array-section">
+
+                <label for="customArray">
+                    Custom Array
+                    <span class="optional-label">
+                        Optional
+                    </span>
+                </label>
+
+                <div class="custom-array-input">
+
+                    <input
+                        type="text"
+                        id="customArray"
+                        placeholder="Example: 64, 25, 12, 22, 11, 90, 34"
+                    >
+
+                    <button
+                        type="button"
+                        id="applyArrayBtn"
+                        class="secondary-btn"
+                    >
+                        Apply Array
+                    </button>
+
+                </div>
+
+                <small>
+                    Enter numbers separated by commas.
+                </small>
+
+            </div>
+
+
+            <!-- Main Buttons -->
+            <div class="action-buttons">
+
+                <button
+                    type="button"
+                    id="generateBtn"
+                    class="secondary-btn"
+                >
+                    ↻ Generate Random
+                </button>
+
+                <button
+                    type="button"
+                    id="startBtn"
+                    class="primary-btn"
+                >
+                    ▶ Start Visualization
+                </button>
+
+                <button
+                    type="button"
+                    id="pauseBtn"
+                    class="warning-btn"
+                    disabled
+                >
+                    ⏸ Pause
+                </button>
+
+                <button
+                    type="button"
+                    id="resetBtn"
+                    class="danger-btn"
+                >
+                    ↺ Reset
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             STATUS MESSAGE
+        ====================================================== -->
+        <section
+            id="statusMessage"
+            class="status-message"
+            aria-live="polite"
+        >
+            Ready to visualize an algorithm.
+        </section>
+
+
+
+        <!-- =====================================================
+             VISUALIZATION CARD
+        ====================================================== -->
+        <section class="card visualization-card">
+
+            <div class="visualization-header">
+
+                <div>
+
+                    <span class="section-label">
+                        LIVE VISUALIZATION
+                    </span>
+
+                    <h2 id="visualizationTitle">
+                        Merge Sort
+                    </h2>
+
+                </div>
+
+
+                <div class="visualization-state">
+
+                    <span
+                        id="algorithmState"
+                        class="state-badge ready"
+                    >
+                        Ready
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Array Visualization -->
+            <div
+                id="arrayVisualization"
+                class="array-visualization"
+                aria-label="Algorithm array visualization"
+            >
+
+                <!-- JavaScript will generate bars here -->
+
+                <div class="empty-visualization">
+
+                    <div class="empty-icon">
+                        📊
+                    </div>
+
+                    <p>
+                        Your array visualization will appear here.
+                    </p>
+
+                    <small>
+                        Generate an array or enter your own values.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- Visualization Legend -->
+            <div class="legend">
+
+                <div class="legend-item">
+
+                    <span class="legend-dot normal"></span>
+
+                    <span>Normal</span>
+
+                </div>
+
+                <div class="legend-item">
+
+                    <span class="legend-dot comparing"></span>
+
+                    <span>Comparing</span>
+
+                </div>
+
+                <div class="legend-item">
+
+                    <span class="legend-dot active"></span>
+
+                    <span>Active</span>
+
+                </div>
+
+                <div class="legend-item">
+
+                    <span class="legend-dot sorted"></span>
+
+                    <span>Sorted</span>
+
+                </div>
+
+                <div class="legend-item">
+
+                    <span class="legend-dot discarded"></span>
+
+                    <span>Discarded</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             STATISTICS
+        ====================================================== -->
+        <section class="stats-grid">
+
+
+            <!-- Steps -->
+            <div class="card stat-card">
+
+                <div class="stat-icon">
+                    🔢
+                </div>
+
+                <div>
+
+                    <span class="stat-label">
+                        STEPS
+                    </span>
+
+                    <strong id="stepsCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Algorithm operations
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- Comparisons -->
+            <div class="card stat-card">
+
+                <div class="stat-icon">
+                    ⚖️
+                </div>
+
+                <div>
+
+                    <span class="stat-label">
+                        COMPARISONS
+                    </span>
+
+                    <strong id="comparisonsCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Value comparisons
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- Time -->
+            <div class="card stat-card">
+
+                <div class="stat-icon">
+                    ⏱️
+                </div>
+
+                <div>
+
+                    <span class="stat-label">
+                        EXECUTION TIME
+                    </span>
+
+                    <strong id="executionTime">
+                        0 ms
+                    </strong>
+
+                    <small>
+                        Measured runtime
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- Array Size -->
+            <div class="card stat-card">
+
+                <div class="stat-icon">
+                    📐
+                </div>
+
+                <div>
+
+                    <span class="stat-label">
+                        ARRAY SIZE
+                    </span>
+
+                    <strong id="currentArraySize">
+                        0
+                    </strong>
+
+                    <small>
+                        Number of elements
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             CURRENT OPERATION
+        ====================================================== -->
+        <section class="card operation-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        ALGORITHM ACTIVITY
+                    </span>
+
+                    <h2>Current Operation</h2>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="currentOperation"
+                class="operation-display"
+            >
+
+                <div class="operation-icon">
+                    🧠
+                </div>
+
+                <div>
+
+                    <strong id="operationTitle">
+                        Waiting to start
+                    </strong>
+
+                    <p id="operationDescription">
+                        Select an algorithm and start the visualization
+                        to see its decisions step by step.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             FINAL RESULT
+        ====================================================== -->
+        <section class="card result-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        RESULT
+                    </span>
+
+                    <h2>Algorithm Result</h2>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="resultContent"
+                class="result-content"
+            >
+
+                <div class="result-placeholder">
+
+                    <div class="result-icon">
+                        🎯
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            No result yet
+                        </strong>
+
+                        <p>
+                            Run an algorithm to see the final result.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             ALGORITHM INFORMATION
+        ====================================================== -->
+        <section class="card algorithm-info-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        UNDERSTAND THE ALGORITHM
+                    </span>
+
+                    <h2 id="algorithmInfoTitle">
+                        Merge Sort
+                    </h2>
+
+                    <p id="algorithmInfoDescription">
+                        Merge Sort divides the array into smaller
+                        subarrays, sorts them and merges them back
+                        together.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="algorithm-info-grid">
+
+
+                <!-- Approach -->
+                <div class="info-item">
+
+                    <span class="info-label">
+                        APPROACH
+                    </span>
+
+                    <strong id="algorithmApproach">
+                        Divide and Conquer
+                    </strong>
+
+                </div>
+
+
+                <!-- Best Case -->
+                <div class="info-item">
+
+                    <span class="info-label">
+                        BEST CASE
+                    </span>
+
+                    <strong id="bestCase">
+                        O(n log n)
+                    </strong>
+
+                </div>
+
+
+                <!-- Average Case -->
+                <div class="info-item">
+
+                    <span class="info-label">
+                        AVERAGE CASE
+                    </span>
+
+                    <strong id="averageCase">
+                        O(n log n)
+                    </strong>
+
+                </div>
+
+
+                <!-- Worst Case -->
+                <div class="info-item">
+
+                    <span class="info-label">
+                        WORST CASE
+                    </span>
+
+                    <strong id="worstCase">
+                        O(n log n)
+                    </strong>
+
+                </div>
+
+
+                <!-- Space Complexity -->
+                <div class="info-item">
+
+                    <span class="info-label">
+                        SPACE COMPLEXITY
+                    </span>
+
+                    <strong id="spaceComplexity">
+                        O(n)
+                    </strong>
+
+                </div>
+
+
+                <!-- Requirement -->
+                <div class="info-item">
+
+                    <span class="info-label">
+                        REQUIREMENT
+                    </span>
+
+                    <strong id="algorithmRequirement">
+                        No special requirement
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- How It Works -->
+            <div class="how-it-works">
+
+                <h3>
+                    How It Works
+                </h3>
+
+                <p id="howItWorksText">
+
+                    The array is repeatedly divided into smaller
+                    sections. These sections are sorted and then
+                    merged while comparing their values.
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             COMPARISON SECTION
+        ====================================================== -->
+        <section class="card comparison-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        ALGORITHM COMPARISON
+                    </span>
+
+                    <h2>
+                        Sorting & Searching Overview
+                    </h2>
+
+                    <p>
+                        Compare the characteristics of the algorithms
+                        used in this visualizer.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table class="comparison-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Algorithm
+                            </th>
+
+                            <th>
+                                Type
+                            </th>
+
+                            <th>
+                                Best
+                            </th>
+
+                            <th>
+                                Average
+                            </th>
+
+                            <th>
+                                Worst
+                            </th>
+
+                            <th>
+                                Requirement
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Merge Sort
+                                </strong>
+                            </td>
+
+                            <td>
+                                Sorting
+                            </td>
+
+                            <td>
+                                O(n log n)
+                            </td>
+
+                            <td>
+                                O(n log n)
+                            </td>
+
+                            <td>
+                                O(n log n)
+                            </td>
+
+                            <td>
+                                None
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Quick Sort
+                                </strong>
+                            </td>
+
+                            <td>
+                                Sorting
+                            </td>
+
+                            <td>
+                                O(n log n)
+                            </td>
+
+                            <td>
+                                O(n log n)
+                            </td>
+
+                            <td>
+                                O(n²)
+                            </td>
+
+                            <td>
+                                None
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Binary Search
+                                </strong>
+                            </td>
+
+                            <td>
+                                Searching
+                            </td>
+
+                            <td>
+                                O(1)
+                            </td>
+
+                            <td>
+                                O(log n)
+                            </td>
+
+                            <td>
+                                O(log n)
+                            </td>
+
+                            <td>
+                                Sorted data
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             EDUCATIONAL MESSAGE
+        ====================================================== -->
+        <section class="explanation-banner">
+
+            <div class="explanation-icon">
+                💡
+            </div>
+
+            <div>
+
+                <h3>
+                    Why visualize algorithms?
+                </h3>
+
+                <p>
+                    Instead of showing only the final answer,
+                    this visualizer exposes the decisions made by
+                    each algorithm — including comparisons, steps,
+                    search ranges and intermediate states.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+    <footer class="footer">
+
+        <p>
+            Sorting & Searching Visualizer
+            <span>•</span>
+            Design and Analysis of Algorithms
+        </p>
+
+        <p class="footer-small">
+            Merge Sort • Quick Sort • Binary Search
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <!--
+        JavaScript is loaded at the end of the body so that
+        all HTML elements exist before script.js tries to access them.
+    -->
+    <script src="script.js"></script>
+
+</body>
+</html>
